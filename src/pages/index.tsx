@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 const Product = () => {
   const { data } = useQuery(['shop'], getAllProduct);
   console.log(data);
-  return <div></div>;
+  return <div>hi</div>;
 };
 
 export default Product;
