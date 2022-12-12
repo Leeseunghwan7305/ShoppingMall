@@ -1,13 +1,11 @@
 import { useState } from 'react';
+import { useRoutes } from 'react-router-dom';
 import './App.css';
-import Router from './Router';
+import { routes } from './routes';
 
 function App() {
-  return (
-    <div className="App">
-      <Router />
-    </div>
-  );
+  const elem = useRoutes(routes);
+  return elem;
 }
 
 export default App;
