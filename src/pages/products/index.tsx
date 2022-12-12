@@ -14,7 +14,7 @@ const ProductList = () => {
   console.log(data);
   return (
     <div>
-      <ul>
+      <ul className="products">
         {data?.map((item) => {
           return <DetailProducts {...item} key={item.id} />;
         })}

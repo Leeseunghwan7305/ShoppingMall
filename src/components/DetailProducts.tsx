@@ -1,23 +1,17 @@
 import { Product } from '@/type';
 import React from 'react';
 
-const DetailProducts = ({
-  category,
-  description,
-  id,
-  image,
-  price,
-  rating,
-  title,
-}: Product) => {
+const DetailProducts = ({ description, image, rating, title }: Product) => {
   return (
-    <li>
-      <p>{category}</p>
-      <p>{title}</p>
-      <p>{description}</p>
-      <img src={image} />
-      <span>{rating.count}</span>
-      <span>{rating.rate}</span>
+    <li className="product-item">
+      <p className="product-item__title">{title}</p>
+      <img
+        className="product-item__img"
+        style={{ width: '100%', height: '150px', objectFit: 'contain' }}
+        src={image}
+      />
+      <span className="product-item__count">{rating.count}</span>
+      <span className="product-item__rating">{rating.rate}</span>
     </li>
   );
 };
