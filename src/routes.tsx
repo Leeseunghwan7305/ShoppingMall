@@ -1,10 +1,10 @@
 import React from 'react';
-import Cart from './components/cart';
 import DetailInform from './pages/products/DetailInform';
 import Layout from './__layout';
 
 const Main = React.lazy(() => import('./pages/index'));
 const ProductMain = React.lazy(() => import('./pages/products/index'));
+const Cart = React.lazy(() => import('./components/cart'));
 
 export const routes = [
   {
