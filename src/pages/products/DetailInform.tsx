@@ -1,7 +1,9 @@
+import { cartItemSelector } from '@/components/recoils/cart';
 import GET_PRODUCTS, { GET_PRODUCT, Product } from '@/graphql/products';
 import { graphqlFetcher, QueryKeys } from '@/queryClient';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 
 const DetailInform = () => {
@@ -13,6 +15,7 @@ const DetailInform = () => {
 
   const { title, imageUrl, description } = data;
   console.log(data);
+
   return (
     <div>
       <h1>상품상세</h1>
