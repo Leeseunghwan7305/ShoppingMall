@@ -9,6 +9,7 @@ const ProductList = () => {
     graphqlFetcher(GET_PRODUCTS),
   );
   console.log(data);
+  
   return (
     <div>
       <h1>상품 목록</h1>

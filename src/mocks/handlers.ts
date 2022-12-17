@@ -4,15 +4,19 @@ import { QueryKeys } from '@/queryClient';
 import { graphql, rest } from 'msw';
 import { v4 as uuid } from 'uuid';
 import GET_PRODUCTS, { GET_PRODUCT } from '@/graphql/products';
+import { GET_CART, ADD_CART } from '@/graphql/cart';
 
 const mock_products = Array.from({ length: 20 }).map((_, i) => ({
-  id: uuid(),
+  id: i + 1 + '',
   imageUrl: `https://placeimg.com/200/150/${i + 1}`,
   price: 5000,
   title: `임시상품${i + 1}`,
   description: `임시상세내용${i + 1}`,
   createAt: new Date(1234567890 + i * 1000 * 60).toString(),
 }));
+
+//map으로 하면 서버에 못보내니까 객체로 변경
+const cartData = (() => ({}))();
 
 export const handlers = [
   graphql.query(GET_PRODUCTS, (req, res, ctx) => {
@@ -24,6 +28,23 @@ export const handlers = [
     );
   }),
   graphql.query(GET_PRODUCT, (req, res, ctx) => {
-    return res(ctx.data(mock_products[0]));
+    const found = mock_products.find((item) => {
+      return item.id === req.variables.id;
+    });
+
+    if (found) return res(ctx.data(found));
+    else {
+      return res();
+    }
+  }),
+
+  graphql.query(GET_CART, (req, res, ctx) => {
+    return res();
+  }),
+
+  graphql.mutation(ADD_CART, (req, res, ctx) => {
+    console.log(req.variables);
+    const id = req.variables.id;
+    return res(ctx.data({}));
   }),
 ];
