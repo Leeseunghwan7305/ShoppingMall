@@ -7,7 +7,6 @@ export const GET_CART = gql`
     imageUrl
     price
     title
-    amount
   }
 `;
 
@@ -17,6 +16,5 @@ export const ADD_CART = gql`
     imageUrl
     price
     title
-    amount
   }
 `;

@@ -1,7 +1,15 @@
+import { CartType } from '@/mocks/handlers';
 import React from 'react';
+import CartItem from './item';
 
-const Cart = () => {
-  return <div>장바구니</div>;
+const CartList = ({ items }: { items: CartType[] }) => {
+  return (
+    <ul>
+      {items?.map((item) => (
+        <CartItem {...item} key={item.id} />
+      ))}
+    </ul>
+  );
 };
 
-export default Cart;
+export default CartList;

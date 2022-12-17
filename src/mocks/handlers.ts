@@ -1,22 +1,29 @@
 import { QueryKeys } from '@/queryClient';
-// graphql을 이용하려면, graphql을 꺼내오면 된다.
-// 현재 여기서는 restAPI로 실습하기 위해 rest를 꺼내왔다.
 import { graphql, rest } from 'msw';
 import { v4 as uuid } from 'uuid';
 import GET_PRODUCTS, { GET_PRODUCT } from '@/graphql/products';
 import { GET_CART, ADD_CART } from '@/graphql/cart';
 
-const mock_products = Array.from({ length: 20 }).map((_, i) => ({
-  id: i + 1 + '',
-  imageUrl: `https://placeimg.com/200/150/${i + 1}`,
-  price: 5000,
-  title: `임시상품${i + 1}`,
-  description: `임시상세내용${i + 1}`,
-  createAt: new Date(1234567890 + i * 1000 * 60).toString(),
-}));
+const mock_products = (() =>
+  Array.from({ length: 20 }).map((_, i) => ({
+    // id: uuid(),
+    id: i + 1 + '',
+    imageUrl: `https://placeimg.com/200/150/${i + 1}`,
+    price: 50000,
+    title: `임시상품${i + 1}`,
+    description: `임시상세내용${i + 1}`,
+    createdAt: new Date(1645735501883 + i * 1000 * 60 * 60 * 10).toString(),
+  })))();
+export type CartType = {
+  id: string;
+  imageUrl: string;
+  price: number;
+  title: string;
+  amount: number;
+};
 
 //map으로 하면 서버에 못보내니까 객체로 변경
-const cartData = (() => ({}))();
+let cartData: { [key: string]: any } = {};
 
 export const handlers = [
   graphql.query(GET_PRODUCTS, (req, res, ctx) => {
@@ -39,12 +46,31 @@ export const handlers = [
   }),
 
   graphql.query(GET_CART, (req, res, ctx) => {
-    return res();
+    console.log(cartData);
+    return res(ctx.data(cartData));
   }),
 
   graphql.mutation(ADD_CART, (req, res, ctx) => {
-    console.log(req.variables);
+    const newData = { ...cartData };
     const id = req.variables.id;
-    return res(ctx.data({}));
+
+    //cart에 담겨져있다면?
+    if (newData[id]) {
+      newData[id] = {
+        ...newData[id],
+        amount: (newData[id].amount || 0) + 1,
+      };
+      //담겨져 있지 않다면?
+    } else {
+      const found = mock_products.find((item) => item.id === req.variables.id);
+      if (found) {
+        newData[id] = {
+          ...found,
+          amount: 1,
+        };
+      }
+    }
+    cartData = newData;
+    return res(ctx.data(newData));
   }),
 ];

@@ -7,6 +7,10 @@ import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
 import './scss/index.scss';
 import { RecoilRoot } from 'recoil';
+import { worker } from './mocks/browser';
+if (import.meta) {
+  worker.start();
+}
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>

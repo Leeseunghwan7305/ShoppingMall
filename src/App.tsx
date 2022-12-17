@@ -9,10 +9,6 @@ function App() {
   const elem = useRoutes(routes);
   const queryClient = getClient();
 
-  if (process.env.NODE_ENV === 'development') {
-    worker.start();
-  }
-
   return (
     <QueryClientProvider client={queryClient}>
       {elem}
