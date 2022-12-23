@@ -1,3 +1,4 @@
+import { UPDATE_CART } from './../graphql/cart';
 import { QueryKeys } from '@/queryClient';
 import { graphql, rest } from 'msw';
 import { v4 as uuid } from 'uuid';
@@ -70,6 +71,24 @@ export const handlers = [
         };
       }
     }
+    cartData = newData;
+    return res(ctx.data(newData));
+  }),
+
+  graphql.mutation(UPDATE_CART, (req, res, ctx) => {
+    const newData = { ...cartData };
+    const { id, amount } = req.variables;
+
+    //cart에 담겨져있다면?
+    if (!newData[id]) {
+      throw new Error('없는 데이터입니다');
+    }
+    newData[id] = {
+      ...newData[id],
+      amount,
+    };
+    //담겨져 있지 않다면?
+
     cartData = newData;
     return res(ctx.data(newData));
   }),
